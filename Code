@@ -1,0 +1,14 @@
+#!/bin/sh
+#SBATCH -N 1                    
+#SBATCH --ntasks-per-node=48    
+#SBATCH --time=06:50:20         
+#SBATCH --job-name=lammps       
+#SBATCH --error=job.%J.err_node_48   
+#SBATCH --output=job.%J.out_node_48 
+#SBATCH --partition=standard   
+# To run the job in the directory from where it is submitted
+cd $SLURM_SUBMIT_DIR
+# For Intel MPI versions 2019 onwards, this value must be shm:ofi
+export I_MPI_FABRICS=shm:dapl
+# Running LAMMPS with Intel MPI
+mpiexec.hydra -n $SLURM_NTASKS lammps.exe
